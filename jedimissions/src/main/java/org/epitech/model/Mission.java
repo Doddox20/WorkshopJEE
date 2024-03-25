@@ -1,4 +1,4 @@
-package org.epitech.Jedi;
+package org.epitech.model;
 
 import java.time.LocalDate;
 import java.util.List;
