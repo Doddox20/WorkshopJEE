@@ -10,15 +10,18 @@ import org.epitech.model.Entity;
 public class InMemoryRepository<E extends Entity> {
     List<E> entities = new ArrayList<>();
 
-    public void save(E entityToSave) {
+    public E save(E entityToSave) {
         Optional<E> entity = findById(entityToSave.id());
+
         if (entity.isPresent()) {
             entities.remove(entity.get());
         }
         entities.add(entityToSave);
+
+        return entityToSave;
     }
 
-    public void DeleteById(UUID idToDelete) {
+    public void deleteById(UUID idToDelete) {
         Optional<E> entity = findById(idToDelete);
         if (entity.isPresent()) {
             entities.remove(entity.get());
@@ -31,6 +34,7 @@ public class InMemoryRepository<E extends Entity> {
 
     public Optional<E> findById(UUID idToFind) {
         int i = 0;
+
         while (i < entities.size()) {
             E entity = entities.get(i);
             if (entity.id().equals(idToFind)) {
@@ -38,6 +42,7 @@ public class InMemoryRepository<E extends Entity> {
             }
             i++;
         }
+
         return Optional.empty();
     }
 }
