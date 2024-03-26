@@ -1,35 +1,38 @@
 package org.epitech.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 import org.epitech.model.Jedi;
 import org.epitech.repository.JediRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @ApplicationScoped
 public class JediService {
 
-    private JediRepository jediRepository;
+    private final JediRepository jediRepository;
 
     @Inject
     public JediService(JediRepository jediRepository) {
         this.jediRepository = jediRepository;
     }
 
+    @Transactional
     public Jedi createJedi(Jedi jedi) {
-        return jediRepository.save(jedi);
+        jediRepository.persist(jedi);
+        return jedi;
     }
 
     public List<Jedi> getJedis() {
-        return jediRepository.findAll();
+        return jediRepository.findAll().list();
     }
 
     public Jedi getJedi(UUID id) {
-        Optional<Jedi> jedi = jediRepository.findById(id);
+        Optional<Jedi> jedi = jediRepository.findByIdOptional(id);
 
         if (jedi.isPresent())
             return jedi.get();
@@ -38,7 +41,8 @@ public class JediService {
     }
 
     public Jedi updateJedi(Jedi jedi) {
-        return jediRepository.save(jedi);
+        jediRepository.persist(jedi);
+        return jedi;
     }
 
     public void deleteJedi(UUID id) {

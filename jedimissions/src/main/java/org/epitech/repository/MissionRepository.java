@@ -1,19 +1,13 @@
 package org.epitech.repository;
 
-import java.util.UUID;
-
 import org.epitech.model.Mission;
-
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 
-@ApplicationScoped
-public class MissionRepository extends InMemoryRepository<Mission> {
-    public Mission save(Mission mission) {
-        if (mission.id() == null) {
-            mission = new Mission(UUID.randomUUID(), mission.name(), mission.description(), mission.jedis(),
-                    mission.start(), mission.end());
-        }
+import java.util.ArrayList;
+import java.util.UUID;
 
-        return super.save(mission);
-    }
+@ApplicationScoped
+public class MissionRepository implements PanacheRepositoryBase<Mission, UUID> {
 }
