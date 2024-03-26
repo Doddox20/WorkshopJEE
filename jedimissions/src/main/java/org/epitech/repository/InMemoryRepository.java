@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import org.epitech.model.Entity;
 
+import jakarta.ws.rs.NotFoundException;
+
 public class InMemoryRepository<E extends Entity> {
     List<E> entities = new ArrayList<>();
 
@@ -25,6 +27,8 @@ public class InMemoryRepository<E extends Entity> {
         Optional<E> entity = findById(idToDelete);
         if (entity.isPresent()) {
             entities.remove(entity.get());
+        } else {
+            throw new NotFoundException("L'entité : " + idToDelete + "n'a pas été trouvé");
         }
     }
 

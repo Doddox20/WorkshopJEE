@@ -8,6 +8,7 @@ import org.epitech.model.Jedi;
 import org.epitech.repository.JediRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class JediService {
@@ -33,7 +34,7 @@ public class JediService {
         if (jedi.isPresent())
             return jedi.get();
         else
-            return null;
+            throw new NotFoundException("Le jedi : " + id + "n'existe pas");
     }
 
     public Jedi updateJedi(Jedi jedi) {
